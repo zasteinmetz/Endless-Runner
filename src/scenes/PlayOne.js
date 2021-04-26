@@ -7,7 +7,7 @@ class PlayOne extends Phaser.Scene {
     }
     create(){
         // place starfield
-        this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
+        this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
     }
     update(){
         this.background.tilePositionX -= backgroundSpeed;
