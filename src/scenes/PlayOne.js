@@ -40,10 +40,9 @@ class PlayOne extends Phaser.Scene {
         
         // GAME OVER flag
         this.gameOver = false;
-        
+
     }
     update(){
-
         // update
         if (!this.gameOver){
         this.background.tilePositionX += backgroundSpeed;
