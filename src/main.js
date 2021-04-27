@@ -8,6 +8,17 @@ let config = {
     type: Phaser.CANVAS,
     width : 640,
     height: 480,
+    physics: {
+        default: "arcade",
+        arcade: {
+            debug: true,
+            // wasn't sure how crutial this was so I added it
+            gravity: {
+                x: 0,
+                y: 0
+            }
+        }
+    },
     scene: [ Menu,  PlayOne]
 }
 

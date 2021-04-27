@@ -4,6 +4,8 @@ class Player extends Phaser.GameObjects.Sprite {
 
         // add object to the existing scene
         scene.add.existing(this);
+        scene.physics.add.existing(this);   // add physics
+        this.setImmovable();
         this.moveSpeed = 4;         // pixels per frame
     }
     update() {
