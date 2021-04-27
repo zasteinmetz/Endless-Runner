@@ -13,7 +13,7 @@ let borderUISize = game.config.height/15;
 let borderPadding = borderUISize/3;
 let backgroundSpeed = 3;
 let moveSpeed = 4;
-//test
+
 
 // reserve keyboard bindings
 let keyENTER, keyLEFT, keyRIGHT;
