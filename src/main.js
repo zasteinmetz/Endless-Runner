@@ -1,4 +1,4 @@
-// please check to see if this work
+// Zackary Steinmetz, 
 
 //Game Configuration
 let config = {

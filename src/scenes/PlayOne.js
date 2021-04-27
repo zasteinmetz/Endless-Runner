@@ -15,6 +15,7 @@ class PlayOne extends Phaser.Scene {
        this.player = new Player(this, borderUISize + borderPadding, game.config.height/2, 'car').setOrigin(0.5, 0);
 
        // add obstacleOne (x3)
+       // *Math.random()
        this.obstacleOne01 = new ObstacleOne(this, game.config.width + borderUISize*6, borderUISize*4, 'policeCar', 0, 30).setOrigin(0,0);
        this.obstacleOne02 = new ObstacleOne(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'policeCar', 0, 20).setOrigin(0,0);
        this.obstacleOne03 = new ObstacleOne(this, game.config.width, borderUISize*6 + borderPadding*4, 'policeCar', 0, 10).setOrigin(0,0);
@@ -24,7 +25,7 @@ class PlayOne extends Phaser.Scene {
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     }
     update(){
-        this.background.tilePositionX -= backgroundSpeed;
+        this.background.tilePositionX += backgroundSpeed;
 
         // update
         this.player.update();

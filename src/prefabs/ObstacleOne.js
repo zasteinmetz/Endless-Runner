@@ -7,13 +7,9 @@ class ObstacleOne extends Phaser.GameObjects.Sprite {
     update(){
         // move obstacle left
         this.x -= this.moveSpeed;
-        // wrap around from left to right edge
+        // destroy when reach edge
         if(this.x <= 0 - this.width) {
-            this.reset();
+            this.destroy();
         }
-    }
-    // position reset
-    reset(){
-        this.x = game.config.width;
     }
 }
