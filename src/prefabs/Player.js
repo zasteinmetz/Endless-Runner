@@ -8,15 +8,22 @@ class Player extends Phaser.GameObjects.Sprite {
     }
     update() {
         // left/right movement
-        if(!this.isFiring){
-
-            if(keyLEFT.isDown && this.y >= borderUISize - this.height) {
-                this.y -= this.moveSpeed;
+            if(keyLEFT.isDown && this.x >= borderUISize + this.width) {
+                this.x -= this.moveSpeed;
             }
 
-            else if(keyRIGHT.isDown && this.y <= game.config.height - borderUISize - this.height){
-                this.y += this.moveSpeed;
+            else if(keyRIGHT.isDown && this.x <= game.config.width - borderUISize - this.width){
+                this.x += this.moveSpeed;
+            }
+            // Variables that would be used to determine if car was too far up or down might not need
+            // this.y >= borderUISize - this.height
+            // this.y <= game.config.height - borderUISize - this.height
+            if (Phaser.Input.Keyboard.JustDown(keyUP) && this.y >= 2.5 * laneLength) {
+                this.y -= laneLength;
+            } 
+
+            else if (Phaser.Input.Keyboard.JustDown(keyDOWN) && this.y <= 5 * laneLength) {
+                this.y += laneLength;
             }
         }
     }
-}

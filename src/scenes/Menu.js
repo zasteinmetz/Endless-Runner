@@ -10,7 +10,7 @@ class Menu extends Phaser.Scene{
    create(){
     // place background
     this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
-
+    
      // menu text configuration
      let menuConfig = {
         fontFamily: 'Courier',

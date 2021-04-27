@@ -15,9 +15,10 @@ let game = new Phaser.Game(config);
 
 //set UI sizes
 let borderUISize = game.config.height/15;
+let laneLength = borderUISize * 2;
 let borderPadding = borderUISize/3;
 let backgroundSpeed = 3;
 let moveSpeed = 4;
 
 // reserve keyboard bindings
-let keyENTER, keyLEFT, keyRIGHT;
+let keyENTER, keyLEFT, keyRIGHT, keyUP, keyDOWN;
