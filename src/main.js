@@ -1,4 +1,7 @@
-// Zackary Steinmetz, 
+/*
+    I'M LATE!
+    by Zackary Steinmetz, Ethan Jung, Alexander Barclay, Gabrielle Velasco
+*/
 
 //Game Configuration
 let config = {
