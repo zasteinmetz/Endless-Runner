@@ -31,6 +31,9 @@ let borderPadding = borderUISize/3;
 let backgroundSpeed = 3;
 let moveSpeed = 4;
 
+// road speed to determine velocity of object
+let roadSpeed = -50;
+
 
 // reserve keyboard bindings
 let keyENTER, keyLEFT, keyRIGHT, keyUP, keyDOWN;
