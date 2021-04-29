@@ -8,6 +8,9 @@ class PlayOne extends Phaser.Scene {
         this.load.image('policeCar', './assets/PoliceCar.png');
     }
     create(){
+        // boolean to determine whether or not to be hit by obstacles
+        this.hitByObstacle = false;
+
         // place background
         this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
 
@@ -18,17 +21,18 @@ class PlayOne extends Phaser.Scene {
 
         // add player
        this.player = new Player(this, 2 * (borderUISize + borderPadding), game.config.height/2, 'car').setOrigin(0.5, 0);
+       // add obstacleOneGroup
+       this.ObstacleOneGroup = this.add.group({
+        runChildUpdate: true     // updates to each child
+    });
 
        // add obstacleOne (x3)
-       // *Math.random()
-       this.obstacleOne01 = new ObstacleOne(this, game.config.width - borderUISize*6, borderUISize*4, 'obstacleOne', 0, 30).setOrigin(0,0);
-       this.obstacleOne02 = new ObstacleOne(this, game.config.width - borderUISize*3, borderUISize*5 + borderPadding*2, 'obstacleOne', 0, 20).setOrigin(0,0);
-       this.obstacleOne03 = new ObstacleOne(this, game.config.width, borderUISize*6 + borderPadding*4, 'obstacleOne', 0, 10).setOrigin(0,0);
+       this.obstacleOne01 = this.createObstacleOne(game.config.width + borderUISize*6, borderUISize*4);
+       this.obstacleOne02 = this.createObstacleOne(game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2);
+       this.obstacleOne03 = this.createObstacleOne(game.config.width, borderUISize*6 + borderPadding*4);
 
        // set up Policecar group
-       this.policeCarGroup = this.add.group({
-           runChildUpdate: true     // updates to each child (unsure if I need for this specific group)
-       });
+       this.policeCarGroup = this.add.group();
 
        // add row of police cars
        this.policeCar01 = this.createPoliceCar(borderUISize, game.config.height/2 - (2 * laneLength));
@@ -53,9 +57,6 @@ class PlayOne extends Phaser.Scene {
         if (!this.gameOver){
         this.background.tilePositionX += backgroundSpeed;
         this.player.update();
-        //this.obstacleOne01.update();
-        //this.obstacleOne02.update();
-        //this.obstacleOne03.update();
         }
 
         else if (this.gameOver == true){
@@ -64,19 +65,45 @@ class PlayOne extends Phaser.Scene {
 
         // check collisions with policeCars
         this.physics.world.collide(this.player, this.policeCarGroup, this.overCollision, null, this);
+
+        if (!this.hitByObstacle){
+            // check collisions with obstacleOne
+            this.physics.world.collide(this.player, this.ObstacleOneGroup, this.backCollision, null, this);
+        }
     }
+
+    //create methods
 
     // set up createPoliceCar method
     // (creates police Car adds it to group and returns it)
     createPoliceCar(x, y){
        // add row of police cars
-       let policeCarX = new PoliceCar(this, x, y, 'policeCar').setOrigin(0.5, 0);
+       let policeCarX = new PoliceCar(this, x, y, 0).setOrigin(0.5, 0);
        this.policeCarGroup.add(policeCarX);
        return policeCarX;
     }
 
+    createObstacleOne(x, y){
+        let obstacleOneX = new ObstacleOne(this, x, y, 'obstacleOne', 0).setOrigin(0,0);
+        this.ObstacleOneGroup.add(obstacleOneX);
+        return obstacleOneX;
+    }
+
+    //collision callbacks
+
     // collision that causes game over
     overCollision(){
         this.gameOver = true;
+    }
+
+    // collision that causes player to move back
+    backCollision(){
+        this.player.x -= 25;
+        this.hitByObstacle = true;
+        console.log("hit");
+        this.time.delayedCall(1000, () => {
+            this.hitByObstacle = false;
+            console.log("good again");
+        }, null, this);
     }
 }
