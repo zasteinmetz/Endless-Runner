@@ -22,8 +22,10 @@ class PlayOne extends Phaser.Scene {
         // add player
        this.player = new Player(this, 2 * (borderUISize + borderPadding), game.config.height/2, 'car').setOrigin(0.5, 0);
        // add obstacleOneGroup
+
        this.ObstacleOneGroup = this.add.group({
-        runChildUpdate: true     // updates to each child
+        runChildUpdate: true,     // updates to each child
+        runChildtoggleForward: true
     });
 
        // add obstacleOne (x3)
@@ -32,7 +34,10 @@ class PlayOne extends Phaser.Scene {
        this.obstacleOne03 = this.createObstacleOne(game.config.width, borderUISize*6 + borderPadding*4);
 
        // set up Policecar group
-       this.policeCarGroup = this.add.group();
+       this.policeCarGroup = this.add.group({
+        runChildUpdate: true,     // updates to each child
+        runChildtoggleForward: true
+    });
 
        // add row of police cars
        this.policeCar01 = this.createPoliceCar(borderUISize, game.config.height/2 - (2 * laneLength));
@@ -98,11 +103,22 @@ class PlayOne extends Phaser.Scene {
 
     // collision that causes player to move back
     backCollision(){
-        this.player.x -= 25;
+        this.policeCar01.forward = true;
+        this.policeCar02.forward = true;
+        this.policeCar03.forward = true;
+        this.policeCar04.forward = true;
+        this.policeCar05.forward = true;
+        backgroundSpeed -= 1;
         this.hitByObstacle = true;
         console.log("hit");
         this.time.delayedCall(1000, () => {
             this.hitByObstacle = false;
+            this.policeCar01.forward = false;
+            this.policeCar02.forward = false;
+            this.policeCar03.forward = false;
+            this.policeCar04.forward = false;
+            this.policeCar05.forward = false;
+            backgroundSpeed += 1;
             console.log("good again");
         }, null, this);
     }
