@@ -26,10 +26,21 @@ class PlayOne extends Phaser.Scene {
         runChildUpdate: true     // updates to each child
     });
 
-       // add obstacleOne (x3)
-       this.obstacleOne01 = this.createObstacleOne(game.config.width + borderUISize*6, borderUISize*4);
-       this.obstacleOne02 = this.createObstacleOne(game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2);
-       this.obstacleOne03 = this.createObstacleOne(game.config.width, borderUISize*6 + borderPadding*4);
+       // add obstacleOne (x3)  Commented until I'm sure we don't need this
+       //this.obstacleOne01 = this.createObstacleOne(game.config.width + borderUISize*6, borderUISize*4);
+       //this.obstacleOne02 = this.createObstacleOne(game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2);
+       //this.obstacleOne03 = this.createObstacleOne(game.config.width, borderUISize*6 + borderPadding*4);
+       //this.obstacleOne04 = this.createObstacleOne(game.config.width + borderUISize*9,  borderUISize*7 + borderPadding*6);
+       //this.obstacleOne05 = this.createObstacleOne(game.config.width + borderUISize*12, borderUISize*8 + borderPadding*8);
+
+       this.obstacleOne01 = this.spawnObstacleOne();
+
+       let spawnTimer = this.time.addEvent({
+           delay: 5000,
+           callback: this.spawnObstacleOne,
+           callbackScope: this,
+           loop: true
+       });
 
        // set up Policecar group
        this.policeCarGroup = this.add.group();
@@ -52,6 +63,7 @@ class PlayOne extends Phaser.Scene {
         this.gameOver = false;
 
     }
+    
     update(){
         // update
         if (!this.gameOver){
@@ -70,6 +82,39 @@ class PlayOne extends Phaser.Scene {
             // check collisions with obstacleOne
             this.physics.world.collide(this.player, this.ObstacleOneGroup, this.backCollision, null, this);
         }
+    }
+
+    //random placement method(s)
+    spawnObstacleOne(){
+        let lane = Math.floor(Math.random() * 4.0);
+        
+        let x = game.config.width;
+        let y = 0.0;
+        switch(lane) {
+            case 0.0:
+                y = game.config.height/2 - (2 * laneLength);
+                break;
+            case 1.0:
+                y = game.config.height/2 - (laneLength);
+                break;
+            case 2.0:
+                y = game.config.height/2;
+                break;
+            case 3.0:
+                y = game.config.height/2 + (laneLength);
+                break;
+            case 4.0:
+                y = game.config.height/2 + (laneLength);
+                break;
+            default:
+                console.log("Switch Defaulted")
+            
+        }
+        
+        let obstacleOneSpawn = new ObstacleOne(this, x, y, 'obstacleOne', 0).setOrigin(0,0);
+        this.ObstacleOneGroup.add(obstacleOneSpawn);
+        return obstacleOneSpawn;
+
     }
 
     //create methods
