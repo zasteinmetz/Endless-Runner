@@ -9,9 +9,14 @@ class PlayOne extends Phaser.Scene {
         this.load.image('crate', './assets/ObstacleOneCrate.png');
         this.load.image('manhole', './assets/ObstacleOneManhole.png');
         this.load.image('stop', './assets/ObstacleOneSTOP.png');
+        this.load.audio('play_background', './assets/PLAY.wav');
+        this.load.audio('over_background', './assets/OVER.wav');
     }
     create(){
         // boolean to determine whether or not to be hit by obstacles
+        this.play_back = this.sound.add('play_background');
+        this.play_back.loop = true;
+        this.play_back.play();
         this.hitByObstacle = false;
 
         // place background
@@ -75,6 +80,8 @@ class PlayOne extends Phaser.Scene {
         }
 
         else if (this.gameOver == true){
+            this.play_back.stop();
+            this.sound.play('over_background');
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', '28px').setOrigin(0.5);
         }
 
