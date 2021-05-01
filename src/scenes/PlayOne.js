@@ -6,6 +6,9 @@ class PlayOne extends Phaser.Scene {
         // load images/title sprites
         this.load.image('car', './assets/Car.png');
         this.load.image('policeCar', './assets/PoliceCar.png');
+        this.load.image('crate', './assets/ObstacleOneCrate.png');
+        this.load.image('manhole', './assets/ObstacleOneManhole.png');
+        this.load.image('stop', './assets/ObstacleOneSTOP.png');
     }
     create(){
         // boolean to determine whether or not to be hit by obstacles
@@ -28,10 +31,21 @@ class PlayOne extends Phaser.Scene {
         runChildtoggleForward: true
     });
 
-       // add obstacleOne (x3)
-       this.obstacleOne01 = this.createObstacleOne(game.config.width + borderUISize*6, borderUISize*4);
-       this.obstacleOne02 = this.createObstacleOne(game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2);
-       this.obstacleOne03 = this.createObstacleOne(game.config.width, borderUISize*6 + borderPadding*4);
+       // add obstacleOne (x3)  Commented until I'm sure we don't need this
+       //this.obstacleOne01 = this.createObstacleOne(game.config.width + borderUISize*6, borderUISize*4);
+       //this.obstacleOne02 = this.createObstacleOne(game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2);
+       //this.obstacleOne03 = this.createObstacleOne(game.config.width, borderUISize*6 + borderPadding*4);
+       //this.obstacleOne04 = this.createObstacleOne(game.config.width + borderUISize*9,  borderUISize*7 + borderPadding*6);
+       //this.obstacleOne05 = this.createObstacleOne(game.config.width + borderUISize*12, borderUISize*8 + borderPadding*8);
+
+       this.obstacleOne01 = this.spawnObstacleOne();
+
+       let spawnTimer = this.time.addEvent({
+           delay: 5000,
+           callback: this.spawnObstacleOne,
+           callbackScope: this,
+           loop: true
+       });
 
        // set up Policecar group
        this.policeCarGroup = this.add.group({
@@ -57,6 +71,7 @@ class PlayOne extends Phaser.Scene {
         this.gameOver = false;
 
     }
+    
     update(){
         // update
         if (!this.gameOver){
@@ -75,6 +90,56 @@ class PlayOne extends Phaser.Scene {
             // check collisions with obstacleOne
             this.physics.world.collide(this.player, this.ObstacleOneGroup, this.backCollision, null, this);
         }
+    }
+
+    //random placement method(s)
+    spawnObstacleOne(){
+        let lane = Math.floor(Math.random() * 4.0);
+        let obstacleNum = Math.floor(Math.random() * 4.0);
+        let obstacleText = 'crate'
+        
+        let x = game.config.width;
+        let y = 0.0;
+        switch(lane) {
+            case 0.0:
+                y = game.config.height/2 - (2 * laneLength);
+                break;
+            case 1.0:
+                y = game.config.height/2 - (laneLength);
+                break;
+            case 2.0:
+                y = game.config.height/2;
+                break;
+            case 3.0:
+                y = game.config.height/2 + (laneLength);
+                break;
+            case 4.0:
+                y = game.config.height/2 + (laneLength);
+                break;
+            default:
+                console.log("Switch Defaulted");
+            
+        }
+
+        switch(obstacleNum) {
+            case 0.0:
+                obstacleText = 'crate';
+                break;
+            case 1.0:
+                obstacleText = 'manhole';
+                break;
+            case 2.0:
+                obstacleText = 'stop';
+                break;
+            default:
+                console.log("Switch 2 Defaulted");
+
+        }
+        
+        let obstacleOneSpawn = new ObstacleOne(this, x, y, obstacleText, 0).setOrigin(0,0);
+        this.ObstacleOneGroup.add(obstacleOneSpawn);
+        return obstacleOneSpawn;
+
     }
 
     //create methods
