@@ -25,7 +25,8 @@ class PlayOne extends Phaser.Scene {
         // place holder buildings
         this.add.rectangle(0, 0, game.config.width, borderUISize * 3, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(0, game.config.height - borderUISize * 2, game.config.width, borderUISize * 3,  0xFFFFFF).setOrigin(0, 0);
-
+        this.distance = 0;
+        this.hdistance = 0;
 
         // add player
        this.player = new Player(this, 2 * (borderUISize + borderPadding), game.config.height/2, 'car').setOrigin(0.5, 0);
@@ -60,6 +61,10 @@ class PlayOne extends Phaser.Scene {
        this.policeCar04 = this.createPoliceCar(borderUISize, game.config.height/2 + (laneLength));
        this.policeCar05 = this.createPoliceCar(borderUISize, game.config.height/2 + (2 * laneLength));
        
+       //distance tracker
+       this.distancetext = this.add.text(game.config.width - 50, game.config.height/2 - 110, this.distance, '28px');
+
+       this.timeEvent = this.time.addEvent({ delay: 100, callback: () =>{this.distance += 1; this.distancetext.text = this.distance}, callbackScope: this, loop: true });
 
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -80,6 +85,11 @@ class PlayOne extends Phaser.Scene {
         }
 
         else if (this.gameOver == true){
+            this.timeEvent.paused = true;
+            if(this.hdistance < this.distance){
+                this.hdistance = this.distance;
+                this.add.text(game.config.width/2, game.config.height/2 + 50, this.hdistance, '28px').setOrigin(0.5);          
+            }
             this.play_back.stop();
             this.sound.play('over_background');
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', '28px').setOrigin(0.5);
