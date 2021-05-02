@@ -46,7 +46,6 @@ class PlayOne extends Phaser.Scene {
        // set up Policecar group
        this.policeCarGroup = this.add.group({
         runChildUpdate: true,     // updates to each child
-        runChildtoggleForward: true
     });
 
        // add row of police cars
