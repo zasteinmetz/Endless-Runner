@@ -24,7 +24,6 @@ class PlayOne extends Phaser.Scene {
         this.add.rectangle(0, 0, game.config.width, borderUISize * 3, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(0, game.config.height - borderUISize * 2, game.config.width, borderUISize * 3,  0xFFFFFF).setOrigin(0, 0);
         this.distance = 0;
-        this.hdistance = 0;
 
         // add player
         this.player = new Player(this, 2 * (borderUISize + borderPadding), game.config.height/2, 'atlas', 'playerCar').setOrigin(0.5, 0);
@@ -63,6 +62,7 @@ class PlayOne extends Phaser.Scene {
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         
         // GAME OVER flag
         this.gameOver = false;
@@ -79,13 +79,19 @@ class PlayOne extends Phaser.Scene {
 
         else if (this.gameOver == true){
             this.timeEvent.paused = true;
-            if(this.hdistance < this.distance){
-                this.hdistance = this.distance;
-                this.add.text(game.config.width/2, game.config.height/2 + 50, this.hdistance, '28px').setOrigin(0.5);          
+            if(hdistance < this.distance){
+                hdistance = this.distance;
+                          
+            }
+            if(Phaser.Input.Keyboard.JustDown(keyR)){
+                this.scene.restart();
             }
             this.play_back.stop();
             this.sound.play('over_background');
+            
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', '28px').setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2 + 50, 'Furthest distance: '+ hdistance).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2 + 100, 'Press R to retry').setOrigin(0.5);
         }
 
         // check collisions with policeCars
