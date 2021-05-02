@@ -43,7 +43,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             }
             if (this.health == 0 && this.frame.name != 'playerCarDead'){
                 this.setTexture('atlas', 'playerCarDead');
-                this.moveSpeed = 0;
             }
+            if (this.health >= 0){
+                this.moveSpeed = this.health;
+            }
+            
         }
     }
