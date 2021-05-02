@@ -4,13 +4,11 @@ class PlayOne extends Phaser.Scene {
     }
     preload(){ 
         // load images/title sprites
-        this.load.image('car', './assets/Car.png');
-        this.load.image('policeCar', './assets/PoliceCar.png');
-        this.load.image('crate', './assets/ObstacleOneCrate.png');
-        this.load.image('manhole', './assets/ObstacleOneManhole.png');
-        this.load.image('stop', './assets/ObstacleOneSTOP.png');
+        this.load.atlas('atlas', './assets/textureAtlas.png', './assets/atlas.json');
+
         this.load.audio('play_background', './assets/PLAY.wav');
         this.load.audio('over_background', './assets/OVER.wav');
+        
     }
     create(){
         // boolean to determine whether or not to be hit by obstacles
@@ -29,20 +27,12 @@ class PlayOne extends Phaser.Scene {
         this.hdistance = 0;
 
         // add player
-       this.player = new Player(this, 2 * (borderUISize + borderPadding), game.config.height/2, 'car').setOrigin(0.5, 0);
-       // add obstacleOneGroup
-
-       this.ObstacleOneGroup = this.add.group({
-        runChildUpdate: true,     // updates to each child
-        runChildtoggleForward: true
+        this.player = new Player(this, 2 * (borderUISize + borderPadding), game.config.height/2, 'atlas', 'playerCar').setOrigin(0.5, 0);
+        
+        // add obstacleOneGroup
+        this.ObstacleOneGroup = this.add.group({
+        runChildUpdate: true     // updates to each child
     });
-
-       // add obstacleOne (x3)  Commented until I'm sure we don't need this
-       //this.obstacleOne01 = this.createObstacleOne(game.config.width + borderUISize*6, borderUISize*4);
-       //this.obstacleOne02 = this.createObstacleOne(game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2);
-       //this.obstacleOne03 = this.createObstacleOne(game.config.width, borderUISize*6 + borderPadding*4);
-       //this.obstacleOne04 = this.createObstacleOne(game.config.width + borderUISize*9,  borderUISize*7 + borderPadding*6);
-       //this.obstacleOne05 = this.createObstacleOne(game.config.width + borderUISize*12, borderUISize*8 + borderPadding*8);
 
        this.obstacleOne01 = this.spawnObstacleOne();
 
@@ -85,9 +75,10 @@ class PlayOne extends Phaser.Scene {
     update(){
         // update
         if (!this.gameOver){
-        this.background.tilePositionX += backgroundSpeed;
-        this.player.update();
+            this.background.tilePositionX += backgroundSpeed;
+            this.player.update();
         }
+    
 
         else if (this.gameOver == true){
             this.timeEvent.paused = true;
@@ -113,7 +104,7 @@ class PlayOne extends Phaser.Scene {
     spawnObstacleOne(){
         let lane = Math.floor(Math.random() * 4.0);
         let obstacleNum = Math.floor(Math.random() * 4.0);
-        let obstacleText = 'crate'
+        let obstacleText = 'slowObsCrate'
         
         let x = game.config.width;
         let y = 0.0;
@@ -140,20 +131,20 @@ class PlayOne extends Phaser.Scene {
 
         switch(obstacleNum) {
             case 0.0:
-                obstacleText = 'crate';
+                obstacleText = 'slowObsCrate';
                 break;
             case 1.0:
-                obstacleText = 'manhole';
+                obstacleText = 'slowObsManhole';
                 break;
             case 2.0:
-                obstacleText = 'stop';
+                obstacleText = 'slowObsStop';
                 break;
             default:
                 console.log("Switch 2 Defaulted");
 
         }
         
-        let obstacleOneSpawn = new ObstacleOne(this, x, y, obstacleText, 0).setOrigin(0,0);
+        let obstacleOneSpawn = new ObstacleOne(this, x, y, 'atlas', obstacleText).setOrigin(0,0);
         this.ObstacleOneGroup.add(obstacleOneSpawn);
         return obstacleOneSpawn;
 
@@ -165,15 +156,9 @@ class PlayOne extends Phaser.Scene {
     // (creates police Car adds it to group and returns it)
     createPoliceCar(x, y){
        // add row of police cars
-       let policeCarX = new PoliceCar(this, x, y, 0).setOrigin(0.5, 0);
+       let policeCarX = new PoliceCar(this, x, y, 'policeCar').setOrigin(0.5, 0);
        this.policeCarGroup.add(policeCarX);
        return policeCarX;
-    }
-
-    createObstacleOne(x, y){
-        let obstacleOneX = new ObstacleOne(this, x, y, 'obstacleOne', 0).setOrigin(0,0);
-        this.ObstacleOneGroup.add(obstacleOneX);
-        return obstacleOneX;
     }
 
     //collision callbacks
@@ -185,12 +170,8 @@ class PlayOne extends Phaser.Scene {
 
     // collision that causes player to move back
     backCollision(){
-        this.policeCar01.forward = true;
-        this.policeCar02.forward = true;
-        this.policeCar03.forward = true;
-        this.policeCar04.forward = true;
-        this.policeCar05.forward = true;
-        backgroundSpeed -= 1;
+        this.player.x -= 25;
+        this.player.health -= 1;
         this.hitByObstacle = true;
         console.log("hit");
         this.time.delayedCall(1000, () => {

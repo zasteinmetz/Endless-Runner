@@ -7,6 +7,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);   // add physics
         this.setImmovable();
         this.moveSpeed = 4;         // pixels per frame
+        this.health = 4;            // dead at 0, 4 damage states while live including undamaged
     }
     update() {
         // left/right movement
@@ -27,5 +28,25 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             else if (Phaser.Input.Keyboard.JustDown(keyDOWN) && this.y <= 5 * laneLength) {
                 this.y += laneLength;
             }
+
+            if (this.health == 4 && this.frame.name != 'playerCar'){
+                this.setTexture('atlas','playerCar');
+            }
+            if (this.health == 3 && this.frame.name != 'playerCar1Dmg'){
+                this.setTexture('atlas','playerCar1Dmg');
+            }
+            if(this.health == 2 && this.frame.name != 'playerCar2Dmg'){
+                this.setTexture('atlas', 'playerCar2Dmg');
+            }
+            if (this.health == 1 && this.frame.name != 'playerCar3Dmg'){
+                this.setTexture('atlas', 'playerCar3Dmg');
+            }
+            if (this.health == 0 && this.frame.name != 'playerCarDead'){
+                this.setTexture('atlas', 'playerCarDead');
+            }
+            if (this.health >= 0){
+                this.moveSpeed = this.health;
+            }
+            
         }
     }
