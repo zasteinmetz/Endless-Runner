@@ -168,6 +168,7 @@ class PlayOne extends Phaser.Scene {
     // collision that causes player to move back
     backCollision(){
         this.player.x -= 25;
+        this.player.health -= 1;
         this.hitByObstacle = true;
         console.log("hit");
         this.time.delayedCall(1000, () => {
