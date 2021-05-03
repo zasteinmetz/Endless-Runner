@@ -43,13 +43,20 @@ class PlayOne extends Phaser.Scene {
             runChildUpdate: true
     });
 
-        // add PickupGroup
-        this.PickupGroup = this.add.group({
+        // add HealGroup
+        this.HealGroup = this.add.group({
             runChildUpdate: true
     });
     
 
        this.obstacleOne01 = this.spawnObstacleOne();
+
+       let healTimer = this.time.addEvent({
+        delay: 5000,
+        callback: this.spawnHealPickup,
+        callbackScope: this,
+        loop: true
+    });
 
        let spawnTimer = this.time.addEvent({
            delay: obstacleOneDelay,
@@ -85,6 +92,7 @@ class PlayOne extends Phaser.Scene {
             args: [obstacleTwoDelay, this.spawnObstacleOne, this, true],
             loop: true
     });
+        
 
        // set up Policecar group
        this.policeCarGroup = this.add.group();
@@ -155,6 +163,8 @@ class PlayOne extends Phaser.Scene {
             this.physics.world.collide(this.player, this.ObstacleOneGroup, this.backCollision, null, this);
             this.physics.world.collide(this.player, this.ObstacleTwoGroup, this.stopCollision, null, this);
         }
+
+        this.physics.world.collide(this.player, this.HealGroup, this.healCollision, null, this);
         
     }
 
@@ -245,6 +255,39 @@ class PlayOne extends Phaser.Scene {
         return obstacleTwoSpawn;
     }
 
+    spawnHealPickup(){
+        if (this.player.health != 3){
+            let lane = Math.floor(Math.random() * 4.0);
+            let obstacleNum = Math.floor(Math.random() * 3.0);
+            let obstacleText = 'Health';
+            let x = game.config.width;
+            let y = 0.0;
+            switch(lane) {
+                case 0.0:
+                    y = game.config.height/2 - (2 * laneLength);
+                    break;
+                case 1.0:
+                    y = game.config.height/2 - (laneLength);
+                    break;
+                case 2.0:
+                    y = game.config.height/2;
+                    break;
+                case 3.0:
+                    y = game.config.height/2 + (laneLength);
+                    break;
+                case 4.0:
+                    y = game.config.height/2 + (laneLength);
+                    break;
+                default:
+                    console.log("Switch Defaulted");
+            }
+
+                let healthSpawn = new Pickup(this, x, y, 'atlas', obstacleText).setOrigin(0,0);
+                this.HealGroup.add(healthSpawn);
+                return healthSpawn;
+        }
+    }
+
     //create methods
 
     // set up createPoliceCar method
@@ -262,6 +305,11 @@ class PlayOne extends Phaser.Scene {
     overCollision(){
         this.gameOver = true;
         
+    }
+
+    // collision that heals the car
+    healCollision(){
+        this.player.health = 3;
     }
 
     // collision that stops the car

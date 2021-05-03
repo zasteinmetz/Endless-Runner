@@ -14,5 +14,6 @@ class Pickup extends Phaser.Physics.Arcade.Sprite {
             this.destroy();
             //console.log("destroyed");
         }
+        
     }
 }
