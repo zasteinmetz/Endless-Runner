@@ -6,7 +6,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);
         scene.physics.add.existing(this);   // add physics
         this.setImmovable();
-        this.moveSpeed = 4;         // pixels per frame
+        this.moveSpeed = 5;         // pixels per frame
         this.health = 3;            // dead at 0, 4 damage states while live including undamaged
     }
     update() {
@@ -42,9 +42,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 this.setTexture('atlas', 'playerCarDead');
             }
             if (this.health > 0){
-                this.moveSpeed = this.health + 1;
+                this.moveSpeed = this.health + 2;
             } else if (this.health == 0){
                 this.moveSpeed = 0;
+                this.x -= 1;
             }
             
         }

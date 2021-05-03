@@ -37,12 +37,22 @@ class PlayOne extends Phaser.Scene {
         this.ObstacleTwoGroup = this.add.group({
             runChildUpdate: true
     });
+
+        //add ObstacleThreeGroup
+        this.ObstacleThreeGroup = this.add.group({
+            runChildUpdate: true
+    });
+
+        // add PickupGroup
+        this.PickupGroup = this.add.group({
+            runChildUpdate: true
+    });
     
 
        this.obstacleOne01 = this.spawnObstacleOne();
 
        let spawnTimer = this.time.addEvent({
-           delay: 5000,
+           delay: obstacleOneDelay,
            callback: this.spawnObstacleOne,
            callbackScope: this,
            loop: true
@@ -50,10 +60,30 @@ class PlayOne extends Phaser.Scene {
 
        
        let spawnTimer2 = this.time.addEvent({
-        delay: 10000,
+        delay: obstacleTwoDelay,
         callback: this.spawnObstacleTwo,
         callbackScope: this,
         loop: true
+    });
+        let speedUpTimer = this.time.addEvent({
+            delay: 30000,
+            callback: this.speedUp,
+            callbackScope: this,
+            loop: true
+    });
+        let speedTimer = this.time.addEvent({
+            delay: 30000,
+            callback: spawnTimer.reset,
+            callbackScope: this,
+            args: [obstacleOneDelay, this.spawnObstacleOne, this, true],
+            loop: true
+    });
+        let speedTimer2 = this.time.addEvent({
+            delay: 30000,
+            callback: spawnTimer2.reset,
+            callbackScope: this,
+            args: [obstacleTwoDelay, this.spawnObstacleOne, this, true],
+            loop: true
     });
 
        // set up Policecar group
@@ -131,7 +161,7 @@ class PlayOne extends Phaser.Scene {
     //random placement method(s)
     spawnObstacleOne(){
         let lane = Math.floor(Math.random() * 4.0);
-        let obstacleNum = Math.floor(Math.random() * 4.0);
+        let obstacleNum = Math.floor(Math.random() * 2.0);
         let obstacleText = 'slowObsCrate'
         let x = game.config.width;
         let y = 0.0;
@@ -159,9 +189,6 @@ class PlayOne extends Phaser.Scene {
                 obstacleText = 'slowObsCrate';
                 break;
             case 1.0:
-                obstacleText = 'slowObsManhole';
-                break;
-            case 2.0:
                 obstacleText = 'slowObsStop';
                 break;
             default:
@@ -174,7 +201,7 @@ class PlayOne extends Phaser.Scene {
 
     spawnObstacleTwo(){
         let lane = Math.floor(Math.random() * 4.0);
-        let obstacleNum = Math.floor(Math.random() * 4.0);
+        let obstacleNum = Math.floor(Math.random() * 3.0);
         let obstacleText = 'carNPC1';
         let x = game.config.width;
         let y = 0.0;
@@ -206,6 +233,9 @@ class PlayOne extends Phaser.Scene {
                 break;
             case 2.0:
                 obstacleText = 'carNPC3';
+                break;
+            case 3.0:
+                obstacleText = 'slowObsManhole';
                 break;
             default:
                 console.log("Switch 2 Defaulted");
@@ -254,5 +284,12 @@ class PlayOne extends Phaser.Scene {
             this.hitByObstacle = false;
             console.log("good again");
         }, null, this);
+    }
+
+    //speedUp function, speeds up timers
+    speedUp(){
+        obstacleOneDelay /= 2.0;
+        obstacleTwoDelay /= 2.0;
+
     }
 }
