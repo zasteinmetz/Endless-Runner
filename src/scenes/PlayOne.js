@@ -5,7 +5,7 @@ class PlayOne extends Phaser.Scene {
     preload(){ 
         // load images/title sprites
         this.load.atlas('atlas', './assets/textureAtlas.png', './assets/atlas.json');
-
+        this.load.audio('bonk', './assets/bonk1.wav');
         this.load.audio('play_background', './assets/PLAY.wav');
         this.load.audio('over_background', './assets/OVER.wav');
         
@@ -14,6 +14,7 @@ class PlayOne extends Phaser.Scene {
         // boolean to determine whether or not to be hit by obstacles
         this.play_back = this.sound.add('play_background');
         this.play_back.loop = true;
+        this.over_back = this.sound.add('over_background');
         this.play_back.play();
         this.hitByObstacle = false;
 
@@ -53,8 +54,8 @@ class PlayOne extends Phaser.Scene {
        this.policeCar05 = this.createPoliceCar(borderUISize, game.config.height/2 + (2 * laneLength));
        
        //distance tracker
-       this.distancetext = this.add.text(game.config.width - 50, game.config.height/2 - 110, this.distance, '28px');
-
+       this.distancetext = this.add.text(game.config.width - 50, game.config.height/2 - 109, this.distance, '28px');
+       this.add.text(game.config.width - 150, game.config.height/2 - 110, 'Distance: ', '28px');
        this.timeEvent = this.time.addEvent({ delay: 100, callback: () =>{this.distance += 1; this.distancetext.text = this.distance}, callbackScope: this, loop: true });
 
         // define keys
@@ -78,16 +79,19 @@ class PlayOne extends Phaser.Scene {
     
 
         else if (this.gameOver == true){
+            this.play_back.stop();
+            this.over_back.play();
             this.timeEvent.paused = true;
+            
             if(hdistance < this.distance){
                 hdistance = this.distance;
                           
             }
             if(Phaser.Input.Keyboard.JustDown(keyR)){
+                this.over_back.stop();
                 this.scene.restart();
             }
-            this.sound.play('over_background');
-            this.play_back.stop();
+            
             
             
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', '28px').setOrigin(0.5);
@@ -170,10 +174,12 @@ class PlayOne extends Phaser.Scene {
     // collision that causes game over
     overCollision(){
         this.gameOver = true;
+        
     }
 
     // collision that causes player to move back
     backCollision(){
+        this.sound.play('bonk');
         this.player.x -= 25;
         this.player.health -= 1;
         this.hitByObstacle = true;
