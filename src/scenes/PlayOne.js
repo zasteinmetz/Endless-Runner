@@ -33,6 +33,11 @@ class PlayOne extends Phaser.Scene {
         this.ObstacleOneGroup = this.add.group({
         runChildUpdate: true     // updates to each child
     });
+        //add ObstacleTwoGroup
+        this.ObstacleTwoGroup = this.add.group({
+            runChildUpdate: true
+    });
+    
 
        this.obstacleOne01 = this.spawnObstacleOne();
 
@@ -42,6 +47,14 @@ class PlayOne extends Phaser.Scene {
            callbackScope: this,
            loop: true
        });
+
+       
+       let spawnTimer2 = this.time.addEvent({
+        delay: 10000,
+        callback: this.spawnObstacleTwo,
+        callbackScope: this,
+        loop: true
+    });
 
        // set up Policecar group
        this.policeCarGroup = this.add.group();
@@ -110,7 +123,9 @@ class PlayOne extends Phaser.Scene {
         if (!this.hitByObstacle){
             // check collisions with obstacleOne
             this.physics.world.collide(this.player, this.ObstacleOneGroup, this.backCollision, null, this);
+            this.physics.world.collide(this.player, this.ObstacleTwoGroup, this.stopCollision, null, this);
         }
+        
     }
 
     //random placement method(s)
@@ -118,7 +133,6 @@ class PlayOne extends Phaser.Scene {
         let lane = Math.floor(Math.random() * 4.0);
         let obstacleNum = Math.floor(Math.random() * 4.0);
         let obstacleText = 'slowObsCrate'
-        
         let x = game.config.width;
         let y = 0.0;
         switch(lane) {
@@ -139,9 +153,7 @@ class PlayOne extends Phaser.Scene {
                 break;
             default:
                 console.log("Switch Defaulted");
-            
         }
-
         switch(obstacleNum) {
             case 0.0:
                 obstacleText = 'slowObsCrate';
@@ -154,13 +166,53 @@ class PlayOne extends Phaser.Scene {
                 break;
             default:
                 console.log("Switch 2 Defaulted");
-
         }
-        
-        let obstacleOneSpawn = new ObstacleOne(this, x, y, 'atlas', obstacleText).setOrigin(0,0);
+        let obstacleOneSpawn = new Obstacle(this, x, y, 'atlas', obstacleText).setOrigin(0,0);
         this.ObstacleOneGroup.add(obstacleOneSpawn);
         return obstacleOneSpawn;
+    }
 
+    spawnObstacleTwo(){
+        let lane = Math.floor(Math.random() * 4.0);
+        let obstacleNum = Math.floor(Math.random() * 4.0);
+        let obstacleText = 'carNPC1';
+        let x = game.config.width;
+        let y = 0.0;
+        switch(lane) {
+            case 0.0:
+                y = game.config.height/2 - (2 * laneLength);
+                break;
+            case 1.0:
+                y = game.config.height/2 - (laneLength);
+                break;
+            case 2.0:
+                y = game.config.height/2;
+                break;
+            case 3.0:
+                y = game.config.height/2 + (laneLength);
+                break;
+            case 4.0:
+                y = game.config.height/2 + (laneLength);
+                break;
+            default:
+                console.log("Switch Defaulted");
+        }
+        switch(obstacleNum) {
+            case 0.0:
+                obstacleText = 'carNPC1';
+                break;
+            case 1.0:
+                obstacleText = 'carNPC2';
+                break;
+            case 2.0:
+                obstacleText = 'carNPC3';
+                break;
+            default:
+                console.log("Switch 2 Defaulted");
+        }
+        let obstacleTwoSpawn = new Obstacle(this, x, y, 'atlas', obstacleText).setOrigin(0,0);
+        this.ObstacleTwoGroup.add(obstacleTwoSpawn);
+        return obstacleTwoSpawn;
     }
 
     //create methods
@@ -182,6 +234,15 @@ class PlayOne extends Phaser.Scene {
         
     }
 
+    // collision that stops the car
+    stopCollision(){
+        this.sound.play('bonk');
+        this.player.health = 0;
+        this.hitByObstacle = true;
+        this.time.delayedCall(1000, () => {
+            this.hitByObstacle = false;
+        }, null, this);
+    }
     // collision that causes player to move back
     backCollision(){
         this.sound.play('bonk');
