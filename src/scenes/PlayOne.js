@@ -17,7 +17,7 @@ class PlayOne extends Phaser.Scene {
         this.over_back = this.sound.add('over_background');
         this.play_back.play();
         this.hitByObstacle = false;
-
+        
         // place background
         this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
 
@@ -52,12 +52,17 @@ class PlayOne extends Phaser.Scene {
        this.policeCar03 =  this.createPoliceCar(borderUISize, game.config.height/2);
        this.policeCar04 = this.createPoliceCar(borderUISize, game.config.height/2 + (laneLength));
        this.policeCar05 = this.createPoliceCar(borderUISize, game.config.height/2 + (2 * laneLength));
-       
+       //Instruction
+       this.instruction = this.add.text(game.config.width /2 -200, game.config.height/2 , 'Use UP and DOWN to switch lanes\nLEFT and RIGHT to move\nWatch out the obstacles and pick up BUFF items\nSee how far you can go', '28px');
+       this.clock = this.time.delayedCall(7000, () => {
+        this.instruction.destroy();
+          
+      }, null, this);
        //distance tracker
        this.distancetext = this.add.text(game.config.width - 50, game.config.height/2 - 109, this.distance, '28px');
        this.add.text(game.config.width - 150, game.config.height/2 - 110, 'Distance: ', '28px');
        this.timeEvent = this.time.addEvent({ delay: 100, callback: () =>{this.distance += 1; this.distancetext.text = this.distance}, callbackScope: this, loop: true });
-
+       
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
