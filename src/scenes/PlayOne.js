@@ -86,8 +86,9 @@ class PlayOne extends Phaser.Scene {
             if(Phaser.Input.Keyboard.JustDown(keyR)){
                 this.scene.restart();
             }
-            this.play_back.stop();
             this.sound.play('over_background');
+            this.play_back.stop();
+            
             
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', '28px').setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 50, 'Furthest distance: '+ hdistance).setOrigin(0.5);
