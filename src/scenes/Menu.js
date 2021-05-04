@@ -17,7 +17,9 @@ class Menu extends Phaser.Scene{
     this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
     this.menu_back = this.sound.add('menu_background');
     this.menu_back.loop = true;
+    
     this.menu_back.play();
+    
      // menu text configuration
      let menuConfig = {
         fontFamily: 'Courier',
@@ -46,6 +48,9 @@ class Menu extends Phaser.Scene{
         this.menu_back.stop();
         this.scene.start('playOneScene');
         }
-   
+        if(Phaser.Input.Keyboard.JustDown(keyC)) {
+            this.menu_back.stop();
+            this.scene.start('Credit');
+            }
     }
 }

@@ -19,7 +19,7 @@ let config = {
             }
         }
     },
-    scene: [ Menu,  PlayOne]
+    scene: [ Menu,  PlayOne, Credit]
 }
 
 let game = new Phaser.Game(config);
