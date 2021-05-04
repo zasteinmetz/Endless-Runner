@@ -30,10 +30,13 @@ let laneLength = borderUISize * 2;
 let borderPadding = borderUISize/3;
 let backgroundSpeed = 3;
 let moveSpeed = 4;
-
+let hdistance = 0;
 // road speed to determine velocity of object
 let roadSpeed = -50;
 
+let obstacleOneDelay = 5000;
+let obstacleTwoDelay = 12000;
+
 
 // reserve keyboard bindings
-let keyENTER, keyLEFT, keyRIGHT, keyUP, keyDOWN;
+let keyENTER, keyLEFT, keyRIGHT, keyUP, keyDOWN, keyR, keyC;
