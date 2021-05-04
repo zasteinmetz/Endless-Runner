@@ -31,6 +31,7 @@ class Credit extends Phaser.Scene{
    update(){
     this.background.tilePositionX -= backgroundSpeed;
     if(Phaser.Input.Keyboard.JustDown(keyC)) {
+        menu_back.stop();
             this.scene.start('menuScene');
             }
     }

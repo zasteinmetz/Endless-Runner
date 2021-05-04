@@ -1,6 +1,10 @@
 /*
     I'M LATE!
+    Completed by 05/04/2021
     by Zackary Steinmetz, Ethan Jung, Alexander Barclay, Gabrielle Velasco
+    creative tilt:
+    We are proud of implementation of random textures spawn that the obstacles spawn at random positions, types, and textures
+    We are also proud of the cars and obstacles art we use because they fit the theme.
 */
 
 //Game Configuration
@@ -37,6 +41,7 @@ let roadSpeed = -50;
 let obstacleOneDelay = 5000;
 let obstacleTwoDelay = 12000;
 
+let menu_back;
 
 // reserve keyboard bindings
 let keyENTER, keyLEFT, keyRIGHT, keyUP, keyDOWN, keyR, keyC;

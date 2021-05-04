@@ -4,7 +4,7 @@ class Menu extends Phaser.Scene{
     }
 
     preload(){
-        this.load.audio('menu_background','./assets/MENU.wav');
+       this.load.audio('menu_background','./assets/MENU.wav');
         this.load.image('Title','./assets/Title.png');
         // load audio (if any)
         
@@ -15,10 +15,10 @@ class Menu extends Phaser.Scene{
     // place background
     
     this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
-    this.menu_back = this.sound.add('menu_background');
-    this.menu_back.loop = true;
+   menu_back = this.sound.add('menu_background');
+   menu_back.loop = true;
     
-    this.menu_back.play();
+    menu_back.play();
     
      // menu text configuration
      let menuConfig = {
@@ -45,11 +45,11 @@ class Menu extends Phaser.Scene{
    update(){
     this.background.tilePositionX -= backgroundSpeed;
     if(Phaser.Input.Keyboard.JustDown(keyENTER)) {
-        this.menu_back.stop();
+        menu_back.stop();
         this.scene.start('playOneScene');
         }
         if(Phaser.Input.Keyboard.JustDown(keyC)) {
-            this.menu_back.stop();
+            
             this.scene.start('Credit');
             }
     }
