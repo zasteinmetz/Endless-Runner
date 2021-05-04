@@ -34,9 +34,10 @@ class Menu extends Phaser.Scene{
     //this.add.text(game.config.width/2, game.config.height/2 - (borderUISize + borderPadding), 'Endless Runner', menuConfig).setOrigin(0.5);
     this.title = this.add.image(50,100,'Title').setOrigin(0,0);
     this.add.text(game.config.width/2, game.config.height/2 + (borderUISize + borderPadding), 'ENTER TO START', menuConfig).setOrigin(0.5);
-
+    this.add.text(game.config.width/2, game.config.height/2 + (borderUISize + borderPadding) + 100, 'Press C to view credits', menuConfig).setOrigin(0.5);
     // define keys
     keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+    keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
    }
 
    update(){
@@ -45,5 +46,6 @@ class Menu extends Phaser.Scene{
         this.menu_back.stop();
         this.scene.start('playOneScene');
         }
+   
     }
 }

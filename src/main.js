@@ -39,4 +39,4 @@ let obstacleTwoDelay = 12000;
 
 
 // reserve keyboard bindings
-let keyENTER, keyLEFT, keyRIGHT, keyUP, keyDOWN, keyR;
+let keyENTER, keyLEFT, keyRIGHT, keyUP, keyDOWN, keyR, keyC;

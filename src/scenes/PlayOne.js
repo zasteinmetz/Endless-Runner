@@ -7,14 +7,12 @@ class PlayOne extends Phaser.Scene {
         this.load.atlas('atlas', './assets/textureAtlas.png', './assets/atlas.json');
         this.load.audio('bonk', './assets/bonk1.wav');
         this.load.audio('play_background', './assets/PLAY.wav');
-        this.load.audio('over_background', './assets/OVER.wav');
         
     }
     create(){
         // boolean to determine whether or not to be hit by obstacles
         this.play_back = this.sound.add('play_background');
         this.play_back.loop = true;
-        this.over_back = this.sound.add('over_background');
         this.play_back.play();
         this.hitByObstacle = false;
         
@@ -136,7 +134,6 @@ class PlayOne extends Phaser.Scene {
 
         else if (this.gameOver == true){
             this.play_back.stop();
-            this.over_back.play();
             this.timeEvent.paused = true;
             
             if(hdistance < this.distance){
@@ -144,7 +141,6 @@ class PlayOne extends Phaser.Scene {
                           
             }
             if(Phaser.Input.Keyboard.JustDown(keyR)){
-                this.over_back.stop();
                 this.scene.restart();
             }
             
