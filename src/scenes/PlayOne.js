@@ -24,8 +24,6 @@ class PlayOne extends Phaser.Scene {
         this.add.rectangle(0, game.config.height - borderUISize * 2, game.config.width, borderUISize * 3,  0xFFFFFF).setOrigin(0, 0);
         this.distance = 0;
 
-        // add player
-        this.player = new Player(this, 2 * (borderUISize + borderPadding), game.config.height/2, 'atlas', 'playerCar').setOrigin(0.5, 0);
         
         // add obstacleOneGroup
         this.ObstacleOneGroup = this.add.group({
@@ -123,6 +121,10 @@ class PlayOne extends Phaser.Scene {
         
         // GAME OVER flag
         this.gameOver = false;
+
+        // add player last to make it appear over spawed objects
+        this.player = new Player(this, 2 * (borderUISize + borderPadding), game.config.height/2, 'atlas', 'playerCar').setOrigin(0.5, 0);
+        
 
     }
     
