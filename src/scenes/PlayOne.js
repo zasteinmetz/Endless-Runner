@@ -69,13 +69,13 @@ class PlayOne extends Phaser.Scene {
         loop: true
     });
         let speedUpTimer = this.time.addEvent({
-            delay: 15000,
+            delay: 10000,
             callback: this.speedUp,
             callbackScope: this,
             loop: true
     });
         let speedTimer = this.time.addEvent({
-            delay: 15000,
+            delay: 10000,
             callback: spawnTimer.reset,
             callbackScope: this,
             args: [obstacleOneDelay, this.spawnObstacleOne, this, true],
