@@ -1,10 +1,12 @@
 /*
     I'M LATE!
-    Completed by 05/04/2021
+    Completed by 05/05/2021
     by Zackary Steinmetz, Ethan Jung, Alexander Barclay, Gabrielle Velasco
-    creative tilt:
-    We are proud of implementation of random textures spawn that the obstacles spawn at random positions, types, and textures
-    We are also proud of the cars and obstacles art we use because they fit the theme.
+    For creative tilt we have menu music that persists across scenes, health pickups
+    that only spawn when the player is damaged, and random textures that spawn with
+    the obstacle's random spawning
+    Also we able to remix a song online, and just in general we are proud of the assets
+    we made
 */
 
 //Game Configuration
@@ -38,10 +40,11 @@ let hdistance = 0;
 // road speed to determine velocity of object
 let roadSpeed = -50;
 
-let obstacleOneDelay = 5000;
-let obstacleTwoDelay = 12000;
+let obstacleOneDelay = 1000;
+let obstacleTwoDelay = 5000;
 
 let menu_back;
+let firstTime = false;
 
 // reserve keyboard bindings
 let keyENTER, keyLEFT, keyRIGHT, keyUP, keyDOWN, keyR, keyC;

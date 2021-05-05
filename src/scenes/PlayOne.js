@@ -48,7 +48,7 @@ class PlayOne extends Phaser.Scene {
        this.obstacleOne01 = this.spawnObstacleOne();
 
        let healTimer = this.time.addEvent({
-        delay: 5000,
+        delay: 2500,
         callback: this.spawnHealPickup,
         callbackScope: this,
         loop: true
@@ -69,20 +69,20 @@ class PlayOne extends Phaser.Scene {
         loop: true
     });
         let speedUpTimer = this.time.addEvent({
-            delay: 30000,
+            delay: 15000,
             callback: this.speedUp,
             callbackScope: this,
             loop: true
     });
         let speedTimer = this.time.addEvent({
-            delay: 30000,
+            delay: 15000,
             callback: spawnTimer.reset,
             callbackScope: this,
             args: [obstacleOneDelay, this.spawnObstacleOne, this, true],
             loop: true
     });
         let speedTimer2 = this.time.addEvent({
-            delay: 30000,
+            delay: 15000,
             callback: spawnTimer2.reset,
             callbackScope: this,
             args: [obstacleTwoDelay, this.spawnObstacleOne, this, true],
@@ -101,12 +101,16 @@ class PlayOne extends Phaser.Scene {
        this.policeCar03 =  this.createPoliceCar(borderUISize, game.config.height/2);
        this.policeCar04 = this.createPoliceCar(borderUISize, game.config.height/2 + (laneLength));
        this.policeCar05 = this.createPoliceCar(borderUISize, game.config.height/2 + (2 * laneLength));
-       //Instruction
+
+       if (firstTime == false){
+            //Instruction
        this.instruction = this.add.text(game.config.width /2 -200, game.config.height/2 , 'Use UP and DOWN to switch lanes\nLEFT and RIGHT to move\nWatch out the obstacles and pick up BUFF items\nSee how far you can go', '28px');
-       this.clock = this.time.delayedCall(7000, () => {
-        this.instruction.destroy();
-          
-      }, null, this);
+            this.clock = this.time.delayedCall(7000, () => {
+            this.instruction.destroy();
+        }, null, this);
+        firstTime = true;
+        }
+      
        //distance tracker
        this.distancetext = this.add.text(game.config.width - 50, game.config.height/2 - 109, this.distance, '28px');
        this.add.text(game.config.width - 150, game.config.height/2 - 110, 'Distance: ', '28px');
@@ -145,7 +149,7 @@ class PlayOne extends Phaser.Scene {
                           
             }
             if(Phaser.Input.Keyboard.JustDown(keyR)){
-                this.scene.restart();
+                this.scene.start('playOneScene');
             }
             
             
@@ -342,8 +346,8 @@ class PlayOne extends Phaser.Scene {
 
     //speedUp function, speeds up timers
     speedUp(){
-        obstacleOneDelay /= 2.0;
-        obstacleTwoDelay /= 2.0;
+        obstacleOneDelay /= 4.0;
+        obstacleTwoDelay /= 4.0;
 
     }
 }
