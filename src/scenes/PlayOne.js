@@ -193,7 +193,7 @@ class PlayOne extends Phaser.Scene {
                 y = game.config.height/2 + (laneLength);
                 break;
             case 4.0:
-                y = game.config.height/2 + (laneLength);
+                y = game.config.height/2 + 2 * (laneLength);
                 break;
             default:
                 console.log("Switch Defaulted");
@@ -233,7 +233,7 @@ class PlayOne extends Phaser.Scene {
                 y = game.config.height/2 + (laneLength);
                 break;
             case 4.0:
-                y = game.config.height/2 + (laneLength);
+                y = game.config.height/2 + 2 * (laneLength);
                 break;
             default:
                 console.log("Switch Defaulted");
@@ -280,7 +280,7 @@ class PlayOne extends Phaser.Scene {
                     y = game.config.height/2 + (laneLength);
                     break;
                 case 4.0:
-                    y = game.config.height/2 + (laneLength);
+                    y = game.config.height/2 + 2 * (laneLength);
                     break;
                 default:
                     console.log("Switch Defaulted");
