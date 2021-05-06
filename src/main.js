@@ -17,7 +17,7 @@ let config = {
     physics: {
         default: "arcade",
         arcade: {
-            debug: true,
+            //debug: true,
             // wasn't sure how crutial this was so I added it
             gravity: {
                 x: 0,
